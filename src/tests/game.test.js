@@ -6,13 +6,14 @@ describe("Golf Game Tracker API", () => {
 
     it("should create a new golf game", async () => {
         const response = await request(app)
-        .post("/games")
-        .send({
-            date: '2025-06-01',
-            courseName: 'Narooma Golf Club',
-            score: 85,
-            notes: "Felt great on the course!"
-        });
+            .post("/games")
+            .send({
+                date: '2025-06-01',
+                course: 'Narooma Golf Club',
+                holesPlayed: 18,
+                scores: Array(18).fill(5),
+                notes: "Felt great on the course!"
+            });
         expect(response.statusCode).toBe(201);
         expect(response.body).toHaveProperty('_id');
         createdGameId = response.body._id;
@@ -26,8 +27,8 @@ describe("Golf Game Tracker API", () => {
     });
 
     it("Should retrieve a specific golf game by ID", async () => {
-        const response = await request(app).get(`/games.${createdGameId}`);
+        const response = await request(app).get(`/games/${createdGameId}`);
         expect(response.statusCode).toBe(200);
-        expect(response.body).toHaveProperty('_id', createGameId);
+        expect(response.body).toHaveProperty('_id', createdGameId);
     });
 });
