@@ -1,0 +1,30 @@
+{
+  "name": "golf-game-tracker-api",
+  "version": "1.0.0",
+  "description": "An API for golfers to input and track the games of golf they've played. Allowing users to note the courses played, input scores, and add notes to reflect on how they've played.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Delcan-f/Golf-Game-Tracker-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Delcan-f/Golf-Game-Tracker-API/issues"
+  },
+  "homepage": "https://github.com/Delcan-f/Golf-Game-Tracker-API#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.1"
+  }
+}
