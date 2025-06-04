@@ -1,56 +1,49 @@
-name: Node.js Continuous Integration
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main, master]
+    branches:
+      - main
   pull_request:
-    branches: [main, master]
-  schedule:
-    - cron: "0 0 * * 0" # Runs weekly on Sundays at midnight
+    branches:
+      - main
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    env:
-      MONGO_URI: ${{ secrets.MONGO_URI }}
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run tests with Jest and generate reports
-        run: |
-          mkdir -p test-results logs
-          npx jest --ci --coverage \
-            --outputFile=test-results/junit.xml \
-            --testLocationInResults \
-            --reporters=default \
-            --reporters=jest-junit \
-            | tee logs/test-output.log
+      - name: Lint code
+        run: npx eslint .
+
+      - name: Run tests
+        run: npm test -- --coverage
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage
+          path: coverage/
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: test-results/junit.xml
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
-      - name: Upload test logs
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-logs
-          path: logs/test-output.log
+    steps:
+      - name: Trigger Render Deploy
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }} \
+          -H 'Authorization: Bearer ${{ secrets.RENDER_API_KEY }}' \
+          -H 'Content-Type: application/json'

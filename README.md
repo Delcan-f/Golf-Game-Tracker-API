@@ -1,2 +1,18 @@
-# Golf-Game-Tracker-API
-An API for golfers to input and track the games of golf they've played. Allowing users to note the courses played, input scores, and add notes to reflect on how they've played. 
+# Golf Game Tracker API ⛳
+
+## 📚 Overview
+Track and analyze golf game scores, calculate statistics, and manage game records.
+
+## 🛠️ Tech Stack
+- Node.js, Express
+- MongoDB, Mongoose
+- Jest & Supertest
+- GitHub Actions CI/CD
+- Deployed with Render
+
+## 🚀 Getting Started
+
+### 1. Clone the repo
+```bash
+git clone 
+cd golf-game-tracker
