@@ -1,27 +1,29 @@
+require("dotenv").config(); // Load .env variables
 const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const connectDB = require("./database");
 const gameRoutes = require("./routes/gameRoutes");
 
-dotenv.config();
-
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use('/games', gameRoutes);
 
-const PORT = process.env.PORT || 3000;
+// Route registration
+app.use("/games", gameRoutes);
 
-console.log("Mongo URI:", process.env.MONGO_URI); // debug line
+// Health check or root route
+app.get("/", (req, res) => {
+  res.send("Golf Game Tracker API is up and running!");
+});
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log("MongoDB connected");
-  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-})
-.catch(err => console.error("MongoDB connection error:", err));
+// Connect to database and start server
+connectDB()
+  .then(() => {
+    console.log("DB connected, starting server...");
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
 
-module.exports = app;
+module.exports = app; // Export for testing
