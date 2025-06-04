@@ -1,18 +1,22 @@
-const mongoose = require('mongoose');
-const request = require('supertest');
-const app = require('../server.js');
-const connectDB = require("../database.js");
-const Game = require('../models/Game');
+const mongoose = require("mongoose");
+const request = require("supertest");
+const app = require("../server");
+const startServer = require("../index");
+const Game = require("../models/Game");
+
+let server;
 
 describe("Golf Game Tracker API", () => {
   beforeAll(async () => {
-    await connectDB(); // Correct import
+    server = await startServer();
   });
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await server.close();  // properly close server after tests
   });
 
+  // Your tests...
   it("should create a new golf game", async () => {
     const response = await request(app)
       .post("/games")
@@ -22,7 +26,7 @@ describe("Golf Game Tracker API", () => {
         score: 72,
         player: "Tiger Woods",
         holesPlayed: 18,
-        scores: Array(18).fill(4)
+        scores: Array(18).fill(4),
       });
 
     expect(response.statusCode).toBe(201);
@@ -38,11 +42,11 @@ describe("Golf Game Tracker API", () => {
   it("Should retrieve a specific golf game by ID", async () => {
     const game = await Game.create({
       course: "Pebble Beach",
-        date: "2024-06-01",
-        score: 72,
-        player: "Tiger Woods",
-        holesPlayed: 18,
-        scores: Array(18).fill(4)
+      date: "2024-06-01",
+      score: 72,
+      player: "Tiger Woods",
+      holesPlayed: 18,
+      scores: Array(18).fill(4),
     });
 
     const response = await request(app).get(`/games/${game._id}`);

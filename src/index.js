@@ -1,7 +1,20 @@
-const app = require('./server.js');
-const PORT = process.env.PORT || 3000;
+const app = require("./server");
+const connectDB = require("./database");
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
 
+async function startServer() {
+  await connectDB();
+  console.log("DB connected, starting server...");
+  const server = app.listen(PORT, () =>
+    console.log(`Server is running on port ${PORT}`)
+  );
+  return server;
+}
+
+// Only start server if this file is run directly (not required by tests)
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = startServer;
