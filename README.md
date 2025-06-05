@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Golf Game Tracker API enables golfers to input and track their games, including courses played, scores per hole, and notes. The API provides CRUD operations for game records and calculates statistics such as best and average scores. It is built using Node.js, Express, and MongoDB with Mongoose, and includes automated testing, CI/CD pipelines, and deployment.
+The Golf Game Tracker API enables golfers to input and track their games, including courses played, scores, and notes. The API provides CRUD operations for game records and calculates statistics such as best and average scores. It is built using Node.js, Express, and MongoDB with Mongoose, and includes automated testing, CI/CD pipelines, and deployment.
 
 ## Tech Stack
 
@@ -16,9 +16,9 @@ The Golf Game Tracker API enables golfers to input and track their games, includ
 
 ### Prerequisites
 
-- Node.js (v20 recommended)
+- Node.js 
 - MongoDB Atlas account or local MongoDB server
-- Render account (optional for deployment)
+- Render account 
 
 ### Installation
 

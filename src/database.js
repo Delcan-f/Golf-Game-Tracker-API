@@ -2,9 +2,8 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   const uri = process.env.NODE_ENV === "test" ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
-  console.log("Connecting to MongoDB:", uri); // Log which DB we're connecting to
+  console.log("Connecting to MongoDB:", uri);
 
-  // Only connect if not already connected
   if (mongoose.connection.readyState === 0) {
     try {
       await mongoose.connect(uri);

@@ -12,14 +12,13 @@ describe("Golf Game Tracker API", () => {
   });
 
   afterAll(async () => {
-    // Instead of dropDatabase(), just delete all Game docs to clean up
     await Game.deleteMany({});
     await mongoose.connection.close();
     await server.close();
   });
 
   beforeEach(async () => {
-    await Game.deleteMany({}); // Clean before each test
+    await Game.deleteMany({});
   });
 
   const validGameData = {
@@ -53,7 +52,7 @@ describe("Golf Game Tracker API", () => {
       course: "Pebble Beach",
       holesPlayed: 18,
       scores: Array(18).fill(4),
-    }; // missing date
+    };
     const response = await request(app).post("/games").send(badData);
     expect(response.statusCode).toBe(400);
     expect(response.body).toHaveProperty("error");

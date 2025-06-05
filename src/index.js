@@ -12,7 +12,6 @@ async function startServer() {
   return server;
 }
 
-// Only start server if this file is run directly (not required by tests)
 if (require.main === module) {
   startServer();
 }
